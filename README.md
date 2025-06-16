@@ -28,7 +28,7 @@ Imagine a shared whiteboard or a basic pastebin — but directly synced with you
 The entire project runs inside Docker containers using `docker-compose`.
 
 ```bash
-git clone https://github.com/yourusername/telegram-group-pastebin.git
+git clone https://github.com/ayyya6969/TelegramGroupPastebin.git
 cd telegram-group-pastebin
 cp .env.example .env  # Fill in your Telegram bot token and group chat ID
 docker-compose up -d
