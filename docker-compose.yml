@@ -2,29 +2,29 @@ version: '3.8'
 
 services:
   web:
-    build: . # Build from the Dockerfile in the current directory
+    build: .
     container_name: telegram-pastebin-web
-    command: python app.py # Command to run the Flask web server
+    command: python app.py
     ports:
-      - "5000:5000" # Map host port 5000 to container port 5000
+      - "5000:5000"
     volumes:
-      - ./messages.json:/app/messages.json # Persist message history
+      - ./messages.db:/app/messages.db # <--- CHANGE THIS LINE
     env_file:
-      - ./.env # Load environment variables from the .env file
+      - ./.env
     depends_on:
-      - bot # Ensure the bot starts before the web server (optional, but good practice)
-    restart: unless-stopped # Always restart unless explicitly stopped
+      - bot
+    restart: unless-stopped
 
   bot:
-    build: . # Build from the Dockerfile in the current directory
+    build: .
     container_name: telegram-pastebin-bot
-    command: python bot.py # Command to run the Telegram bot
+    command: python bot.py
     volumes:
-      - ./messages.json:/app/messages.json # Access the same message history
+      - ./messages.db:/app/messages.db # <--- CHANGE THIS LINE
     env_file:
-      - ./.env # Load environment variables from the .env file
-    restart: unless-stopped # Always restart unless explicitly stopped
+      - ./.env
+    restart: unless-stopped
 
 networks:
   default:
-    driver: bridge # Use a default bridge network for container communication
+    driver: bridge
