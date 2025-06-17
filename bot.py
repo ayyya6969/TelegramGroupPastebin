@@ -4,7 +4,7 @@ import requests
 import threading
 from datetime import datetime
 from dotenv import load_dotenv
-import db_manager # <--- UNCOMMENT OR ADD THIS BACK
+import db_manager
 
 load_dotenv()
 
@@ -17,7 +17,7 @@ if not TELEGRAM_BOT_TOKEN or not TELEGRAM_GROUP_CHAT_ID:
 
 TELEGRAM_API_BASE_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/"
 LAST_UPDATE_ID = 0
-COMMAND_PREFIX = "/post" # Define the command
+# COMMAND_PREFIX = "/post" # Removed as any message will be posted
 
 def process_telegram_updates():
     """Poll Telegram for new messages and process them."""
@@ -50,24 +50,18 @@ def process_telegram_updates():
                 if str(chat_id) == TELEGRAM_GROUP_CHAT_ID:
                     print(f"[DEBUG] Message is from the configured group: {TELEGRAM_GROUP_CHAT_ID}")
 
-                    # 2. Check if the message starts with the /post command
-                    if text and text.lower().startswith(COMMAND_PREFIX):
-                        # Extract the content after the command
-                        content_to_post = text[len(COMMAND_PREFIX):].strip()
-
-                        if content_to_post: # Only save if there's actual content after the command
-                            print(f"[INFO] Saving message from Telegram (command - {sender_name}): '{content_to_post}'")
-                            db_manager.add_message( # <--- This line saves to DB
-                                source="telegram",
-                                sender=sender_name,
-                                message_text=content_to_post,
-                                timestamp=msg_timestamp,
-                                telegram_message_id=telegram_message_id
-                            )
-                        else:
-                            print(f"[INFO] Skipping message from {sender_name}: '{COMMAND_PREFIX}' command received but no content to post.")
+                    # Only process text messages (ignore photos, stickers, etc.)
+                    if text:
+                        print(f"[INFO] Saving message from Telegram (from {sender_name}): '{text}'")
+                        db_manager.add_message( # <--- This line saves to DB
+                            source="telegram",
+                            sender=sender_name,
+                            message_text=text, # Save the entire text
+                            timestamp=msg_timestamp,
+                            telegram_message_id=telegram_message_id
+                        )
                     else:
-                        print(f"[INFO] Skipping message from {sender_name}: Does not start with '{COMMAND_PREFIX}' command.")
+                        print(f"[INFO] Skipping non-text message from {sender_name} in configured group.")
                 else:
                     print(f"[INFO] Skipping message from {sender_name}: Not from the configured group chat ({chat_id}).")
 
@@ -93,7 +87,7 @@ def bot_polling_loop():
         time.sleep(1)
 
 if __name__ == '__main__':
-    db_manager.init_db() # <--- UNCOMMENT OR ADD THIS BACK
+    db_manager.init_db()
 
     bot_thread = threading.Thread(target=bot_polling_loop)
     bot_thread.daemon = True

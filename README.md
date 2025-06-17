@@ -10,7 +10,7 @@ This project provides a simple web-based pastebin application integrated with Te
   Easily send messages from the web interface to your designated Telegram group.
 
 - **Post from Telegram to Web**  
-  Use the `/post` command in your Telegram group to send content directly to your web pastebin.
+  Easily send messages from Telegram group to your web interface.
 
 - **Synchronized Deletion**  
   Delete messages from the web interface, and they will also be removed from the Telegram group.
