@@ -1,52 +1,42 @@
-# 🚀 Telegram Group Pastebin
+# Telegram Pastebin with Docker
 
-## ✨ Overview
+This project provides a simple web-based pastebin application integrated with Telegram. It allows you to post content from both a web interface and directly from a Telegram group using a specific command. Messages posted are stored in a local SQLite database and displayed on the web interface, with the ability to delete them from the web, which also removes them from Telegram.
 
-**Telegram Group Pastebin** is a simple, self-hosted solution that transforms any Telegram group chat into a public read/write web interface.
+---
 
-Imagine a shared whiteboard or a basic pastebin — but directly synced with your Telegram group. Anyone with access to the web interface can:
+## ✨ Features
 
-- 📝 View the conversation history
-- 📤 Post new messages that appear instantly in the Telegram group
+- **Post from Web to Telegram**  
+  Easily send messages from the web interface to your designated Telegram group.
 
-## 🔧 How It Works
+- **Post from Telegram to Web**  
+  Use the `/post` command in your Telegram group to send content directly to your web pastebin.
 
-- 🌐 A **Flask web server** powers the frontend interface.
-- 🤖 A **Python Telegram bot** handles communication with your Telegram group.
-- 💾 All messages are stored in a simple `messages.json` file, ensuring persistent message history.
-- 📦 Entire setup is **containerized using Docker Compose** for easy deployment.
+- **Synchronized Deletion**  
+  Delete messages from the web interface, and they will also be removed from the Telegram group.
 
-## 📂 Features
+- **Persistent Storage**  
+  Messages are saved using a SQLite database (`messages.db`) for persistence across restarts.
 
-- Public and writeable web interface
-- Real-time message sync between web and Telegram
-- Lightweight and easy to host
-- Persistent message storage via `messages.json`
+- **Containerized Deployment**  
+  Simple setup and deployment using Docker and Docker Compose.
 
-## 🐳 Deployment
+---
 
-The entire project runs inside Docker containers using `docker-compose`.
+## 🔧 Technologies Used
 
-```bash
-git clone https://github.com/ayyya6969/TelegramGroupPastebin.git
-cd telegram-group-pastebin
-cp .env.example .env  # Fill in your Telegram bot token and group chat ID
-docker-compose up -d
-```
+- **Python 3**: The core programming language.
+- **Flask**: A lightweight web framework for the web interface.
+- **SQLite**: A file-based database for storing messages.
+- **Telegram Bot API**: For interaction with Telegram.
+- **Docker**: For containerization of the application services.
+- **Docker Compose**: For defining and running the multi-container Docker application.
 
-## 📄 Requirements
+---
 
-- Docker & Docker Compose
-- Telegram bot token (via [@BotFather](https://t.me/BotFather))
-- Telegram group chat ID
+## ✅ Prerequisites
 
-## 📬 Getting Started
+Before you begin, ensure you have the following installed on your system:
 
-1. Create a new bot with [@BotFather](https://t.me/BotFather).
-2. Add the bot to your group and promote it as an admin.
-3. Update the `.env` file with your bot token and chat ID.
-4. Deploy with Docker Compose.
-
-## 🛡️ Security Note
-
-This pastebin is publicly writable. Consider adding authentication if exposing it to the internet.
+- **Docker**  
+  This includes Docker Engine and Docker Compose.
