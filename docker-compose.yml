@@ -6,7 +6,7 @@ services:
     container_name: telegram-pastebin-web
     command: python app.py
     ports:
-      - "5000:5000"
+      - "80:5000"
     volumes:
       - ./messages.db:/app/messages.db # <--- CHANGE THIS LINE
     env_file:
